@@ -1,9 +1,23 @@
 from fastapi import FastAPI, Request
 from fastapi.responses import JSONResponse
 from app.database import Base, engine
-from app.models import user
+from app.models import user, note
 from app.routers import auth, notes
+import time
+import sqlalchemy
 
+def wait_for_db(retires=10, delay=3):
+    for attempt in range(retires):
+        try:
+            with engine.connect():
+                print("Database is ready")
+                return
+        except sqlalchemy.exc.OperationalError:
+            print(f"Database not ready, retrying in {delay}s... (attempt {attempt + 1}/{retires})")
+            time.sleep(delay)
+        raise Exception("Could not connect to database after multiple retries")
+
+wait_for_db()
 Base.metadata.create_all(bind=engine)
 
 app = FastAPI()
