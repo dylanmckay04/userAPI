@@ -4,7 +4,7 @@ from app.database import get_db
 from app.models.user import User
 from app.schemas.user import UserCreate, UserOut, Token
 from app.services.auth import hash_password, verify_password, create_access_token, decode_access_token
-from fastapi.security import OAuth2PasswordBearer
+from fastapi.security import OAuth2PasswordBearer, OAuth2PasswordRequestForm
 
 router = APIRouter(prefix="/auth", tags=["auth"])
 outh2_scheme = OAuth2PasswordBearer(tokenUrl="/auth/login")
@@ -33,9 +33,9 @@ def register(user_data: UserCreate, db: Session = Depends(get_db)):
     return new_user
 
 @router.post("/login", response_model=Token)
-def login(user_data: UserCreate, db: Session = Depends(get_db)):
-    user = db.query(User).filter(User.email == user_data.email).first()
-    if not user or not verify_password(user_data.password, user.hashed_password):
+def login(form_data: OAuth2PasswordRequestForm = Depends(), db: Session = Depends(get_db)):
+    user = db.query(User).filter(User.email == form_data.username).first()
+    if not user or not verify_password(form_data.password, user.hashed_password):
         raise HTTPException(status_code=status.HTTP_401_UNAUTHORIZED, detail="Invalid credentials")
     token = create_access_token(data={"sub": user.email})
     return {"access_token": token, "token_type": "bearer"}
