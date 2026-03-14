@@ -44,7 +44,7 @@ def update_note(note_id: int, note_data: NoteCreate, db: Session = Depends(get_d
     note.title = note_data.title
     note.body = note_data.body
     db.commit()
-    db.refresh()
+    db.refresh(note)
     return note
 
 @router.delete("/{note_id}", status_code=status.HTTP_204_NO_CONTENT)
