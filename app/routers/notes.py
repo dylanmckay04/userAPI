@@ -31,7 +31,7 @@ def get_note(note_id: int, db: Session = Depends(get_db), current_user: User = D
     if not note:
         raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail="Note not found")
     if note.owner_id != current_user.id:
-        raise HTTPException(status_code=status.HTTP_401_UNAUTHORIZED, detail="Not authorized")
+        raise HTTPException(status_code=status.HTTP_403_FORBIDDEN, detail="Not authorized")
     return note
 
 @router.put("/{note_id}", response_model=NoteOut)
