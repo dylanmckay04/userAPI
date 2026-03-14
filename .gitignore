@@ -3,6 +3,8 @@
 .venv
 
 # Compiled / Built files
-.pyc
+*.pyc
 __pycache__
 
+# Database
+*.db
