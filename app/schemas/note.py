@@ -16,7 +16,7 @@ class NoteCreate(BaseModel):
     
     @field_validator("body")
     @classmethod
-    def title_must_be_valid(cls, v):
+    def body_must_be_valid(cls, v):
         if not v.strip():
             raise ValueError("Body cannot be blank")
         if len(v) > 10000:
