@@ -1,0 +1,8 @@
+# Environment
+.env
+.venv
+
+# Compiled / Built files
+.pyc
+__pycache__
+
