@@ -20,7 +20,7 @@ def wait_for_db(retires=10, delay=3):
 wait_for_db()
 Base.metadata.create_all(bind=engine)
 
-app = FastAPI()
+app = FastAPI(title="userAPI")
 
 @app.exception_handler(Exception)
 async def global_exception_handler(request: Request, exc: Exception):
