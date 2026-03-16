@@ -73,5 +73,5 @@
 <ul>
     <li>Search/filter system for notes</li>
     <li>Tagging feature</li>
-    <li>File attatchments</li>
+    <li>File attachments</li>
 </ul>
